@@ -14,7 +14,11 @@ class Complex{
         this.real = r;
         this.img = i;
     }
+<<<<<<< HEAD
    
+=======
+    
+>>>>>>> ce303db85eeb7b445ee96622cee5bf67fdbad01a
     static Complex add(Complex obj1,Complex obj2){ // by making Methos static,
         double realpart = obj1.real + obj2.real;  // we don't need to create an oject to call the Method
         double imgpart = obj1.img + obj2.img; // we can call this method directly using ClassName
