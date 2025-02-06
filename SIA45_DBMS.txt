@@ -1,0 +1,175 @@
+student@student:~$ sudo mysql
+[sudo] password for student: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.41-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| Employee           |
+| college            |
+| emp                |
+| employee           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| pratikp            |
+| student            |
+| sys                |
++--------------------+
+10 rows in set (0.02 sec)
+
+mysql> use pratikp
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+
+mysql> create table departments(dept_id int primary key, dept_name varchar(20) not null);
+
+Query OK, 0 rows affected (0.43 sec)
+
+
+mysql> insert into departments values (100, 'Sales_dept'),(101,"Software_dept"),(102,"HR_dept");
+
+Query OK, 2 rows affected (0.09 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from departments;
++---------+---------------+
+| dept_id | dept_name     |
++---------+---------------+
+|     100 | Sales_dept    |
+|     101 | Software_dept |
+|     102 | HR_dept       |
++---------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> create table Employees (emp_id int primary key, emp_name varchar(20) not null, dept_id int , salary decimal (10,2), foreign key(dept_id) references departments (dept_id));
+Query OK, 0 rows affected (0.48 sec)
+
+
+mysql> describe Employees;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| emp_name | varchar(20)   | NO   |     | NULL    |       |
+| dept_id  | int           | YES  | MUL | NULL    |       |
+| salary   | decimal(10,2) | YES  |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into Employees values (11, "john",100,25000.67), (12,"Steve", 101,30520.25), (13, "Tony", 102, 45000.28);
+Query OK, 2 rows affected (0.07 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+mysql> select * from Employees;
++--------+----------+---------+----------+
+| emp_id | emp_name | dept_id | salary   |
++--------+----------+---------+----------+
+|     11 | john     |     100 | 25000.67 |
+|     12 | Steve    |     101 | 30520.25 |
+|     13 | Tony     |     102 | 45000.28 |
++--------+----------+---------+----------+
+3 rows in set (0.00 sec)
+
+
+mysql> desc Employees;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| emp_name | varchar(20)   | NO   |     | NULL    |       |
+| dept_id  | int           | YES  | MUL | NULL    |       |
+| salary   | decimal(10,2) | YES  |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table Employees modify emp_name varchar(50);
+Query OK, 0 rows affected (1.16 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Employees;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| emp_id   | int           | NO   | PRI | NULL    |       |
+| emp_name | varchar(50)   | YES  |     | NULL    |       |
+| dept_id  | int           | YES  | MUL | NULL    |       |
+| salary   | decimal(10,2) | YES  |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> alter table Employees modify salary decimal(20,10);
+Query OK, 3 rows affected (1.36 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> alter table Employees add column email_id varchar(50);
+Query OK, 0 rows affected (0.28 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Employees;
++----------+----------------+------+-----+---------+-------+
+| Field    | Type           | Null | Key | Default | Extra |
++----------+----------------+------+-----+---------+-------+
+| emp_id   | int            | NO   | PRI | NULL    |       |
+| emp_name | varchar(50)    | YES  |     | NULL    |       |
+| dept_id  | int            | YES  | MUL | NULL    |       |
+| salary   | decimal(20,10) | YES  |     | NULL    |       |
+| email_id | varchar(50)    | YES  |     | NULL    |       |
++----------+----------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+
+mysql> update Employees set email_id="john@gmail.com" where emp_id=11;
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Employees set email_id="Steve@gmail.com" where emp_id=12;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Employees set email_id="Tony@gmail.com" where emp_id=13;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Employees;
++--------+----------+---------+------------------+-----------------+
+| emp_id | emp_name | dept_id | salary           | email_id        |
++--------+----------+---------+------------------+-----------------+
+|     11 | john     |     100 | 25000.6700000000 | john@gmail.com  |
+|     12 | Steve    |     101 | 30520.2500000000 | Steve@gmail.com |
+|     13 | Tony     |     102 | 45000.2800000000 | Tony@gmail.com  |
++--------+----------+---------+------------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> alter table Employees change column email_id email_address varchar(50);
+Query OK, 0 rows affected (0.32 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Employees;
++---------------+----------------+------+-----+---------+-------+
+| Field         | Type           | Null | Key | Default | Extra |
++---------------+----------------+------+-----+---------+-------+
+| emp_id        | int            | NO   | PRI | NULL    |       |
+| emp_name      | varchar(50)    | YES  |     | NULL    |       |
+| dept_id       | int            | YES  | MUL | NULL    |       |
+| salary        | decimal(20,10) | YES  |     | NULL    |       |
+| email_address | varchar(50)    | YES  |     | NULL    |       |
++---------------+----------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+
+
