@@ -1,0 +1,198 @@
+student@student:~$ sudo mysql;
+[sudo] password for student: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.41-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+
+mysql> create database Exp6;
+Query OK, 1 row affected (0.09 sec)
+
+mysql> use Exp6;
+Database changed
+
+mysql> create table Dept(emp_id int primary key,first_name varchar(20), last_name varchar(20), dept varchar(20), salary decimal(7,2));
+Query OK, 0 rows affected (0.38 sec)
+
+mysql> insert into Dept values ( 1, "Alice", "Johnson", "HR", 25000);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into Dept values ( 2, "Steve", "Stark", "Sales", 30000),(3, "Bruce", 
+    -> "Banner", "Sales", 45000);
+Query OK, 2 rows affected (0.07 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+mysql> desc Dept;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| emp_id     | int          | NO   | PRI | NULL    |       |
+| first_name | varchar(20)  | YES  |     | NULL    |       |
+| last_name  | varchar(20)  | YES  |     | NULL    |       |
+| dept       | varchar(20)  | YES  |     | NULL    |       |
+| salary     | decimal(7,2) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> select * from Dept;
++--------+------------+-----------+-------+----------+
+| emp_id | first_name | last_name | dept  | salary   |
++--------+------------+-----------+-------+----------+
+|      1 | Alice      | Johnson   | HR    | 25000.00 |
+|      2 | Steve      | Stark     | Sales | 30000.00 |
+|      3 | Bruce      | Banner    | Sales | 45000.00 |
++--------+------------+-----------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Dept values 
+    -> (4, "Aditya", "Kolhe", "IT", 45000),
+    -> (5, "Rajan", "Kale", "Marketing", 22000),
+    -> (6, "Ragahv", "Kulkarni", NULL, 25000);
+Query OK, 3 rows affected (0.06 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from Dept;
++--------+------------+-----------+-----------+----------+
+| emp_id | first_name | last_name | dept      | salary   |
++--------+------------+-----------+-----------+----------+
+|      1 | Alice      | Johnson   | HR        | 25000.00 |
+|      2 | Steve      | Stark     | Sales     | 30000.00 |
+|      3 | Bruce      | Banner    | Sales     | 45000.00 |
+|      4 | Aditya     | Kolhe     | IT        | 45000.00 |
+|      5 | Rajan      | Kale      | Marketing | 22000.00 |
+|      6 | Ragahv     | Kulkarni  | NULL      | 25000.00 |
++--------+------------+-----------+-----------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select emp_id, first_name, last_name from Dept;
++--------+------------+-----------+
+| emp_id | first_name | last_name |
++--------+------------+-----------+
+|      1 | Alice      | Johnson   |
+|      2 | Steve      | Stark     |
+|      3 | Bruce      | Banner    |
+|      4 | Aditya     | Kolhe     |
+|      5 | Rajan      | Kale      |
+|      6 | Ragahv     | Kulkarni  |
++--------+------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select emp_id, first_name, last_name, dept from Dept where dept = "Sales";
++--------+------------+-----------+-------+
+| emp_id | first_name | last_name | dept  |
++--------+------------+-----------+-------+
+|      2 | Steve      | Stark     | Sales |
+|      3 | Bruce      | Banner    | Sales |
++--------+------------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select dept,count(dept) from Dept group by Dept;
++-----------+-------------+
+| dept      | count(dept) |
++-----------+-------------+
+| HR        |           1 |
+| Sales     |           2 |
+| IT        |           1 |
+| Marketing |           1 |
+| NULL      |           0 |
++-----------+-------------+
+5 rows in set (0.04 sec)
+
+mysql> select dept,count(*) from Dept group by Dept;
++-----------+----------+
+| dept      | count(*) |
++-----------+----------+
+| HR        |        1 |
+| Sales     |        2 |
+| IT        |        1 |
+| Marketing |        1 |
+| NULL      |        1 |
++-----------+----------+
+5 rows in set (0.01 sec)
+
+mysql> select dept,count(dept) from Dept group by Dept having count(dept)>1;
++-------+-------------+
+| dept  | count(dept) |
++-------+-------------+
+| Sales |           2 |
++-------+-------------+
+1 row in set (0.00 sec)
+
+
+mysql> select emp_id, first_name, last_name from Dept order by last_name desc;
++--------+------------+-----------+
+| emp_id | first_name | last_name |
++--------+------------+-----------+
+|      2 | Steve      | Stark     |
+|      6 | Ragahv     | Kulkarni  |
+|      4 | Aditya     | Kolhe     |
+|      5 | Rajan      | Kale      |
+|      1 | Alice      | Johnson   |
+|      3 | Bruce      | Banner    |
++--------+------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from Dept limit 4;
++--------+------------+-----------+-------+----------+
+| emp_id | first_name | last_name | dept  | salary   |
++--------+------------+-----------+-------+----------+
+|      1 | Alice      | Johnson   | HR    | 25000.00 |
+|      2 | Steve      | Stark     | Sales | 30000.00 |
+|      3 | Bruce      | Banner    | Sales | 45000.00 |
+|      4 | Aditya     | Kolhe     | IT    | 45000.00 |
++--------+------------+-----------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select first_name, distinct(dept) from Dept;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'distinct(dept) from Dept' at line 1
+
+mysql> select distinct(dept) from Dept;
++-----------+
+| dept      |
++-----------+
+| HR        |
+| Sales     |
+| IT        |
+| Marketing |
+| NULL      |
++-----------+
+5 rows in set (0.00 sec)
+
+
+mysql> select emp_id,first_name, last_name, dept from Dept where dept in ('Sales','Marketing');
++--------+------------+-----------+-----------+
+| emp_id | first_name | last_name | dept      |
++--------+------------+-----------+-----------+
+|      2 | Steve      | Stark     | Sales     |
+|      3 | Bruce      | Banner    | Sales     |
+|      5 | Rajan      | Kale      | Marketing |
++--------+------------+-----------+-----------+
+3 rows in set (0.00 sec)
+
+
+mysql> select * from Dept where salary between 20000 and 40000;
++--------+------------+-----------+-----------+----------+
+| emp_id | first_name | last_name | dept      | salary   |
++--------+------------+-----------+-----------+----------+
+|      1 | Alice      | Johnson   | HR        | 25000.00 |
+|      2 | Steve      | Stark     | Sales     | 30000.00 |
+|      5 | Rajan      | Kale      | Marketing | 22000.00 |
+|      6 | Ragahv     | Kulkarni  | NULL      | 25000.00 |
++--------+------------+-----------+-----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> 
+
+
+
+
+

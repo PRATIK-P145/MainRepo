@@ -1,0 +1,47 @@
+ mysql> create table departments(dept_id int primary key, dept_name varchar(20) not null);
+
+ mysql> insert into departments values (100, 'Sales_dept'),(101,"Software_dept"),(102,"HR_dept");
+ 
+ describe Employees;
+ 
+ mysql> select * from departments;
+ 
+ mysql> desc Employees;
+ 
+ mysql> alter table Employees modify emp_name varchar(50);
+ 
+ mysql> alter table Employees add column email_id varchar(50);
+ 
+ mysql> update Employees set email_id="john@gmail.com" where emp_id=11;
+ 
+ mysql> alter table Employees change column email_id email_address varchar(50);
+ 
+ ----------------------------------------------------------------------------------------------------------------------------------------
+ Clauses : 
+ 
+ mysql> SELECT * from Dept;
+
+ mysql> SELECT emp_id, first_name, last_name  FROM  Dept;
+
+ mysql> select emp_id, first_name, last_name, dept from Dept  WHERE  dept = "Sales";
+ 
+ mysql> select dept,count(*) from Dept  GROUP BY  Dept;
+ 
+ mysql> select dept,count(dept) from Dept group by Dept  HAVING count(dept)>1;
+
+ mysql> select emp_id, first_name, last_name from Dept  ORDER BY  last_name desc;
+ 
+ mysql> select * from Dept  LIMIT 4;
+
+ mysql> select first_name,  DISTINCT(dept)  from Dept;
+
+mysql> select emp_id,first_name, last_name from Dept where dept  IN  ('IT','Marketing');
+
+mysql> select * from Dept where salary  BETWEEN  20000  AND  40000;
+
+
+
+
+
+
+
