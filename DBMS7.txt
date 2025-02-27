@@ -1,0 +1,249 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| Employee           |
+| Exp6               |
+| college            |
+| emp                |
+| employee           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| pratikp            |
+| student            |
+| sys                |
++--------------------+
+11 rows in set (0.07 sec)
+
+mysql> use pratikp;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+
+mysql> create table student(Roll_no int primary key,Name varchar(20), class varchar(20), marks int , DOB date);
+Query OK, 0 rows affected (0.53 sec)
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Roll_no | int         | NO   | PRI | NULL    |       |
+| Name    | varchar(20) | YES  |     | NULL    |       |
+| class   | varchar(20) | YES  |     | NULL    |       |
+| marks   | int         | YES  |     | NULL    |       |
+| DOB     | date        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+
+mysql> insert into student values(1,"Ram","TE",60,20040211);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into student values(2,"Ramesh","BE",65,20040421);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into student values(3,"Rohan","SE",62,20041125);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into student values(4,"Viraj","TE",67,20040530);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select * from student;
++---------+--------+-------+-------+------------+
+| Roll_no | Name   | class | marks | DOB        |
++---------+--------+-------+-------+------------+
+|       1 | Ram    | TE    |    60 | 2004-02-11 |
+|       2 | Ramesh | BE    |    65 | 2004-04-21 |
+|       3 | Rohan  | SE    |    62 | 2004-11-25 |
+|       4 | Viraj  | TE    |    67 | 2004-05-30 |
++---------+--------+-------+-------+------------+
+4 rows in set (0.00 sec)
+
+mysql> mysql> alter table student rename column Full_Name to Full_Name1;
+Query OK, 0 rows affected (0.24 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++---------+------------+-------+-------+------------+
+| Roll_no | Full_Name1 | class | marks | DOB        |
++---------+------------+-------+-------+------------+
+|       1 | Ram        | TE    |    60 | 2004-02-11 |
+|       2 | Ramesh     | BE    |    65 | 2004-04-21 |
+|       3 | Rohan      | SE    |    62 | 2004-11-25 |
+|       4 | Viraj      | TE    |    67 | 2004-05-30 |
++---------+------------+-------+-------+------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table student rename column Full_Name1 to Full_Name;
+Query OK, 0 rows affected (0.25 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table student add column address varchar(20);
+Query OK, 0 rows affected (0.24 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++---------+-----------+-------+-------+------------+---------+
+| Roll_no | Full_Name | class | marks | DOB        | address |
++---------+-----------+-------+-------+------------+---------+
+|       1 | Ram       | TE    |    60 | 2004-02-11 | NULL    |
+|       2 | Ramesh    | BE    |    65 | 2004-04-21 | NULL    |
+|       3 | Rohan     | SE    |    62 | 2004-11-25 | NULL    |
+|       4 | Viraj     | TE    |    67 | 2004-05-30 | NULL    |
++---------+-----------+-------+-------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> update student set Full_Name="Ram Shinde" where Roll_no=1;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> alter table student modify Full_name varchar(20);
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update student set Full_Name="Ramesh Bhosle" where Roll_no=2;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set Full_Name="Rohan Sabale" where Roll_no=3;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set Full_Name="Viraj Sharma" where Roll_no=4;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student;
++---------+---------------+-------+-------+------------+---------+
+| Roll_no | Full_name     | class | marks | DOB        | address |
++---------+---------------+-------+-------+------------+---------+
+|       1 | Ram Shinde    | TE    |    60 | 2004-02-11 | NULL    |
+|       2 | Ramesh Bhosle | BE    |    65 | 2004-04-21 | NULL    |
+|       3 | Rohan Sabale  | SE    |    62 | 2004-11-25 | NULL    |
+|       4 | Viraj Sharma  | TE    |    67 | 2004-05-30 | NULL    |
++---------+---------------+-------+-------+------------+---------+
+4 rows in set (0.00 sec)
+
+
+mysql> update student set address="katraj" where Roll_no=4;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set address="Mumbai" where Roll_no=3;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set address="Pashan" where Roll_no=2;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update student set address="Pimpri" where Roll_no=1;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student;
++---------+---------------+-------+-------+------------+---------+
+| Roll_no | Full_name     | class | marks | DOB        | address |
++---------+---------------+-------+-------+------------+---------+
+|       1 | Ram Shinde    | TE    |    60 | 2004-02-11 | Pimpri  |
+|       2 | Ramesh Bhosle | BE    |    65 | 2004-04-21 | Pashan  |
+|       3 | Rohan Sabale  | SE    |    62 | 2004-11-25 | Mumbai  |
+|       4 | Viraj Sharma  | TE    |    67 | 2004-05-30 | katraj  |
++---------+---------------+-------+-------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> alter table student drop column address;
+Query OK, 0 rows affected (0.33 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++---------+---------------+-------+-------+------------+
+| Roll_no | Full_name     | class | marks | DOB        |
++---------+---------------+-------+-------+------------+
+|       1 | Ram Shinde    | TE    |    60 | 2004-02-11 |
+|       2 | Ramesh Bhosle | BE    |    65 | 2004-04-21 |
+|       3 | Rohan Sabale  | SE    |    62 | 2004-11-25 |
+|       4 | Viraj Sharma  | TE    |    67 | 2004-05-30 |
++---------+---------------+-------+-------+------------+
+4 rows in set (0.00 sec)
+
+mysql> create view student_details as select Roll_no,Full_name,class from student;
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> select * from student_details;
++---------+---------------+-------+
+| Roll_no | Full_name     | class |
++---------+---------------+-------+
+|       1 | Ram Shinde    | TE    |
+|       2 | Ramesh Bhosle | BE    |
+|       3 | Rohan Sabale  | SE    |
+|       4 | Viraj Sharma  | TE    |
++---------+---------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create view student_marks as select Roll_no, Full_name, class, marks from student;
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> select * from student_marks;
++---------+---------------+-------+-------+
+| Roll_no | Full_name     | class | marks |
++---------+---------------+-------+-------+
+|       1 | Ram Shinde    | TE    |    60 |
+|       2 | Ramesh Bhosle | BE    |    65 |
+|       3 | Rohan Sabale  | SE    |    62 |
+|       4 | Viraj Sharma  | TE    |    67 |
++---------+---------------+-------+-------+
+4 rows in set (0.00 sec)
+
+mysql> 
+
+mysql> show tables;
++-------------------+
+| Tables_in_pratikp |
++-------------------+
+| Employee          |
+| Employees         |
+| departments       |
+| student           |
+| student_details   |
+| student_marks     |
++-------------------+
+6 rows in set (0.00 sec)
+
+mysql> desc student_details;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Roll_no   | int         | NO   |     | NULL    |       |
+| Full_name | varchar(20) | YES  |     | NULL    |       |
+| class     | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> show full tables where table_type like "%VIEW";
++-------------------+------------+
+| Tables_in_pratikp | Table_type |
++-------------------+------------+
+| student_details   | VIEW       |
+| student_marks     | VIEW       |
++-------------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> show full tables where table_type like "%TABLE";
++-------------------+------------+
+| Tables_in_pratikp | Table_type |
++-------------------+------------+
+| Employee          | BASE TABLE |
+| Employees         | BASE TABLE |
+| departments       | BASE TABLE |
+| student           | BASE TABLE |
++-------------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> 
+
+
+
