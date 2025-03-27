@@ -1,0 +1,93 @@
+                      mysql> use pratikp;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table Student (stud_id int primary key, Name varchar(30), Age int not null, Course varchar(30), Marks decimal(10,2));
+Query OK, 0 rows affected (0.35 sec)
+
+mysql> INSERT INTO Student values(101,"Ajay",18,"IT", 77);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO Student values(102,"Suraj",19,"ENTC", 87);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO Student values(103,"Prashant",20,"COMP", 91);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO Student values(104,"Alok",19,"COMP", 95);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from Student;
++---------+----------+-----+--------+-------+
+| stud_id | Name     | Age | Course | Marks |
++---------+----------+-----+--------+-------+
+|     101 | Ajay     |  18 | IT     | 77.00 |
+|     102 | Suraj    |  19 | ENTC   | 87.00 |
+|     103 | Prashant |  20 | COMP   | 91.00 |
+|     104 | Alok     |  19 | COMP   | 95.00 |
++---------+----------+-----+--------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table Student modify Marks int;
+Query OK, 4 rows affected (1.26 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> delimiter @
+mysql> create procedure pro()
+    -> begin
+    -> select * from Student;
+    -> end
+    -> @
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> delimiter ;
+
+mysql> call pro();
++---------+----------+-----+--------+-------+
+| stud_id | Name     | Age | Course | Marks |
++---------+----------+-----+--------+-------+
+|     101 | Ajay     |  18 | IT     |    77 |
+|     102 | Suraj    |  19 | ENTC   |    87 |
+|     103 | Prashant |  20 | COMP   |    91 |
+|     104 | Alok     |  19 | COMP   |    95 |
+|     105 | Nikhil   |  18 | ENTC   |    80 |
++---------+----------+-----+--------+-------+
+5 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter $
+mysql> create procedure GetAllStudentMarks() begin select stud_id, Name, Course, Marks from Student; end $
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> delimiter ;
+mysql> call GetAllStudentMarks();
++---------+----------+--------+-------+
+| stud_id | Name     | Course | Marks |
++---------+----------+--------+-------+
+|     101 | Ajay     | IT     |    77 |
+|     102 | Suraj    | ENTC   |    87 |
+|     103 | Prashant | COMP   |    91 |
+|     104 | Alok     | COMP   |    95 |
+|     105 | Nikhil   | ENTC   |    80 |
++---------+----------+--------+-------+
+5 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter &
+mysql> create procedure GetStudDetailsbyCourse(IN courseName varchar(30)) begin select * from Student where Course=courseName; end &
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> delimiter ;
+mysql> call GetStudDetailsbyCourse("ENTC");
++---------+--------+-----+--------+-------+
+| stud_id | Name   | Age | Course | Marks |
++---------+--------+-----+--------+-------+
+|     102 | Suraj  |  19 | ENTC   |    87 |
+|     105 | Nikhil |  18 | ENTC   |    80 |
++---------+--------+-----+--------+-------+
+2 rows in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
