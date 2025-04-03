@@ -1,0 +1,237 @@
+DELIMITER $$
+
+CREATE PROCEDURE fetch_marks() 
+BEGIN 
+    DECLARE stud_id INT;
+    DECLARE done INT DEFAULT 0;
+    DECLARE stud_name VARCHAR(20);
+    DECLARE marks1 INT;
+    DECLARE marks2 INT;
+    DECLARE marks3 INT;
+    DECLARE total INT;
+    DECLARE stud_grade VARCHAR(20);
+
+    DECLARE stud_cursor CURSOR FOR 
+        SELECT ID, Name, sub1, sub2, sub3 
+        FROM Student;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN stud_cursor;
+    
+    read_loop: LOOP
+        FETCH stud_cursor INTO stud_id, stud_name, marks1, marks2, marks3;
+        
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+        
+        SET total = marks1 + marks2 + marks3;
+
+        -- Determine the grade based on the total marks
+        IF total >= 250 THEN 
+            SET stud_grade = 'A'; 
+        ELSEIF total >= 200 THEN 
+            SET stud_grade = 'B'; 
+        ELSEIF total >= 150 THEN 
+            SET stud_grade = 'C'; 
+        ELSE 
+            SET stud_grade = 'D'; 
+        END IF;
+
+        -- Update the student's total marks and grade
+        UPDATE Student
+        SET Total_Marks = total, Grade = stud_grade
+        WHERE ID = stud_id;
+
+    END LOOP;
+    
+    CLOSE stud_cursor;
+END $$
+
+DELIMITER ;
+
+
+mysql> delimiter &;
+mysql> create procedure get_salaries()
+    -> begin
+    -> declare emp_name varchar(20);
+    -> declare emp_salary int;
+    -> declare emp_cursor cursor for select Name,salary from emp;
+    -> declare continue handler for not found set emp_name=NULL;
+    -> OPEN emp_cursor;
+    -> fetch_loop : LOOP
+    -> fetch emp_cursor into emp_name, emp_salary;
+    -> if emp_name is NULL then LEAVE fetch_loop;
+    -> END if;
+    -> select emp_name as fetch_Name , emp_salary as fetch_Salary;
+    -> END loop;
+    -> END &
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> delimiter ;
+mysql> call get_salaries();
+ERROR 1146 (42S02): Table 'pratikp.emp' doesn't exist
+mysql> ALTER TABLE Emp RENAME TO emp;
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> call get_salaries();
++------------+--------------+
+| fetch_Name | fetch_Salary |
++------------+--------------+
+| Ajay       |        30000 |
++------------+--------------+
+1 row in set (0.00 sec)
+
++------------+--------------+
+| fetch_Name | fetch_Salary |
++------------+--------------+
+| Vishal     |        50000 |
++------------+--------------+
+1 row in set (0.00 sec)
+
++------------+--------------+
+| fetch_Name | fetch_Salary |
++------------+--------------+
+| Tushar     |        35000 |
++------------+--------------+
+1 row in set (0.00 sec)
+
++------------+--------------+
+| fetch_Name | fetch_Salary |
++------------+--------------+
+| Atharv     |        45000 |
++------------+--------------+
+1 row in set (0.00 sec)
+
++------------+--------------+
+| fetch_Name | fetch_Salary |
++------------+--------------+
+| Sachin     |        50000 |
++------------+--------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+
+
+mysql> delimiter &;
+mysql> create procedure get_salaries()
+    -> begin
+    -> declare emp_name varchar(20);
+    -> declare emp_salary int;
+    -> declare emp_cursor cursor for select Name,salary from emp;
+    -> declare continue handler for not found set emp_name=NULL;
+    -> OPEN emp_cursor;
+    -> fetch_loop : LOOP
+    -> fetch emp_cursor into emp_name, emp_salary;
+    -> if emp_name is NULL then LEAVE fetch_loop;
+    -> END if;
+    -> select emp_name as fetch_Name , emp_salary as fetch_Salary;
+    -> END loop;
+    -> END &
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> delimiter ;
+mysql> call get_salaries();
+ERROR 1146 (42S02): Table 'pratikp.emp' doesn't exist
+mysql> ALTER TABLE Emp RENAME TO emp;
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> call get_salaries();
++------------+--------------+
+| fetch_Name | fetch_Salary |
++------------+--------------+
+| Ajay       |        30000 |
++------------+--------------+
+1 row in set (0.00 sec)
+
++------------+--------------+
+| fetch_Name | fetch_Salary |
++------------+--------------+
+| Vishal     |        50000 |
++------------+--------------+
+1 row in set (0.00 sec)
+
++------------+--------------+
+| fetch_Name | fetch_Salary |
++------------+--------------+
+| Tushar     |        35000 |
++------------+--------------+
+1 row in set (0.00 sec)
+
++------------+--------------+
+| fetch_Name | fetch_Salary |
++------------+--------------+
+| Atharv     |        45000 |
++------------+--------------+
+1 row in set (0.00 sec)
+
++------------+--------------+
+| fetch_Name | fetch_Salary |
++------------+--------------+
+| Sachin     |        50000 |
++------------+--------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> create table Student(ID int primary key auto_increment, Name varchar(20), sub1 int, sub2 int ,sub3 int, Total_Marks int, Grade decimal(5,2) );
+    -> &
+Query OK, 0 rows affected (0.53 sec)
+
+mysql> insert into Student(name, sub1, sub2, sub3) values ("Alice",86,87,88)&
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into Student(name, sub1, sub2, sub3) values ("John",76,77,78)&
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into Student(name, sub1, sub2, sub3) values ("Donald",66,67,68)&
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into Student(name, sub1, sub2, sub3) values ("Trish",96,97,98)&
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select * from Student;
+    -> &
++----+--------+------+------+------+-------------+-------+
+| ID | Name   | sub1 | sub2 | sub3 | Total_Marks | Grade |
++----+--------+------+------+------+-------------+-------+
+|  1 | Alice  |   86 |   87 |   88 |        NULL | NULL  |
+|  2 | John   |   76 |   77 |   78 |        NULL | NULL  |
+|  3 | Donald |   66 |   67 |   68 |        NULL | NULL  |
+|  4 | Trish  |   96 |   97 |   98 |        NULL | NULL  |
++----+--------+------+------+------+-------------+-------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE PROCEDURE fetch_marks()
+    -> BEGIN
+    -> DECLARE stud_id int;
+    -> DECLARE stud_name varchar(20);
+    -> DECLARE marks1 int;
+    -> DECLARE marks2 int;
+    -> DECLARE marks3 int;
+    -> DECLARE total int;
+    -> DECLARE stud_grade varchar(20);
+    -> DECLARE stud_cursor CURSOR FOR SELECT ID,Name,sub1,sub2,sub3 FROM Student;
+    -> DECLARE done int DEFAULT 0;
+    -> DECLARE CONTINUE HANDLER NOT FOUND SET done=1;
+    -> OPEN stud_cursor;
+    -> read_loop : LOOP
+    -> FETCH stud_cursor INTO stud_id,stud_name,marks1,marks2,marks3;
+    -> IF done THEN
+    -> LEAVE read_loop;
+    -> END IF;
+    -> SET total = marks1 + marks2 + marks3;
+    -> IF total >= 250 THEN SET stud_grade = 'A';
+    -> ELSE IF total >= 200 THEN SET stud_grade = 'B';
+    -> ELSE IF total >= 150 THEN SET stud_grade = 'C';
+    -> ELSE SET stud_grade = 'D';
+    -> END IF;
+    -> SELECT ID AS stud_id, Name AS stud_name, sub1 AS marks1, sub2 AS marks2, sub3 AS marks3, Total_Marks AS total, Grade AS stud_grade;
+    -> Update Total_Marks = total, Grade = stud_grade where ID = stud_id;
+    -> END LOOP;
+    -> CLOSE stud_cursor;
+    -> END &
