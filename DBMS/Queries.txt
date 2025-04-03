@@ -17,6 +17,11 @@ mysql> create table departments(dept_id int primary key, dept_name varchar(20) n
  mysql> alter table Employees change column email_id email_address varchar(50);
 
  mysql> create view student_details as select Roll_no, Full_name, class  from  student;
+
+CREATE PROCEDURE fetch_marks() BEGIN DECLARE stud_id int;DECLARE done int DEFAULT 0; DECLARE stud_name varchar(20); DECLARE marks1 int; DECLARE marks2 int; DECLARE marks3 int; DECLARE total int; DECLARE stud_grade varchar(20); DECLARE stud_cursor CURSOR FOR SELECT ID,Name,sub1,sub2,sub3 FROM Student;DECLARE CONTINUE HANDLER FOR NOT FOUND SET done=1; OPEN stud_cursor; read_loop : LOOP FETCH stud_cursor INTO stud_id,stud_name,marks1,marks2,marks3; IF done THEN LEAVE read_loop; END IF; SET total = marks1 + marks2 + marks3; IF total >= 250 THEN SET stud_grade
+ = 'A'; ELSE IF total >= 200 THEN SET stud_grade = 'B'; ELSE IF total >= 150 THEN SET stud_grade = 'C'; ELSE SET stud_grade = 'D'; END IF; SEL
+ECT ID AS stud_id, Name AS stud_name, sub1 AS marks1, sub2 AS marks2, sub3 AS marks3, Total_Marks AS total, Grade AS stud_grade; Update Total_Marks = total, Grade = stud_grade where ID = stud_id; END LOOP; CLOSE stud_cursor; END&
+
  
  ----------------------------------------------------------------------------------------------------------------------------------------
  Clauses : 
