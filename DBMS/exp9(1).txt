@@ -1,0 +1,284 @@
+mysql> use pratikp;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_pratikp |
++-------------------+
+| Employee          |
+| Employees         |
+| Student           |
+| departments       |
+| student           |
+| student_details   |
+| student_marks     |
++-------------------+
+7 rows in set (0.00 sec)
+
+mysql> show full tables where table_type like "%VIEW";
++-------------------+------------+
+| Tables_in_pratikp | Table_type |
++-------------------+------------+
+| student_details   | VIEW       |
+| student_marks     | VIEW       |
++-------------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> create table student(Roll_no int primary key auto_increment, Name varchar(20), Subject1 int, Subject2 int, Subject3 int, Total_Marks int, Percentage decimal(5,2));
+ERROR 1050 (42S01): Table 'student' already exists
+mysql> desc student;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Roll_no   | int         | NO   | PRI | NULL    |       |
+| Full_name | varchar(20) | YES  |     | NULL    |       |
+| class     | varchar(20) | YES  |     | NULL    |       |
+| marks     | int         | YES  |     | NULL    |       |
+| DOB       | date        | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create table STUDENT(Roll_no int primary key auto_increment, Name varchar(20), Subject1 int, Subject2 int, Subject3 int, Total_Marks in
+t, Percentage decimal(5,2));
+Query OK, 0 rows affected (0.37 sec)
+
+mysql> insert into
+[1]+  Stopped                 sudo mysql
+student@student:~$ sudo mysql
+[sudo] password for student: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.41-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pratikp;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_pratikp |
++-------------------+
+| Employee          |
+| Employees         |
+| STUDENT           |
+| Student           |
+| departments       |
+| student           |
+| student_details   |
+| student_marks     |
++-------------------+
+8 rows in set (0.01 sec)
+
+mysql> delimiter #
+mysql> CREATE TRIGGER before_insert BEFORE INSERT ON STUDENT
+    -> FOR EACH ROW
+    -> BEGIN
+    -> set Total_Marks = Subject1 + Subject2 + Subject3;
+    -> set Percentage = (Total_Marks*100)/300;
+    -> END #
+ERROR 1193 (HY000): Unknown system variable 'Total_Marks'
+mysql> CREATE TRIGGER before_insert BEFORE INSERT ON STUDENT 
+    -> FOR EACH ROW
+    -> BEGIN
+    -> set new.Total_Marks = Subject1 + Subject2 + Subject3;
+    -> set new.Percentage = (Total_Marks*100)/300;
+    -> END #
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> delimiter ;
+mysql> insert into STUDENT (Name, Subject1, Subject2, Subject3) values("Atharv", 56, 66, 76 ),("Tushar", 77,88,99 ),("Pranav",95,92,96);
+ERROR 1054 (42S22): Unknown column 'Subject1' in 'field list'
+mysql> insert into STUDENT (Name, Subject1, Subject2, Subject3) values (("Atharv", 56, 66, 76 ),("Tushar", 77,88,99 ),("Pranav",95,92,96));
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> desc STUDENT;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| Roll_no     | int          | NO   | PRI | NULL    | auto_increment |
+| Name        | varchar(20)  | YES  |     | NULL    |                |
+| Subject1    | int          | YES  |     | NULL    |                |
+| Subject2    | int          | YES  |     | NULL    |                |
+| Subject3    | int          | YES  |     | NULL    |                |
+| Total_Marks | int          | YES  |     | NULL    |                |
+| Percentage  | decimal(5,2) | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> insert into STUDENT (Name,Subject1,Subject2,Subject3) values ("Atharv",91,92,93);
+ERROR 1054 (42S22): Unknown column 'Subject1' in 'field list'
+mysql> insert into STUDENT(Name,Subject1,Subject2,Subject3) values("Atharv",91,92,93);
+ERROR 1054 (42S22): Unknown column 'Subject1' in 'field list'
+mysql> ^C
+mysql> DROP table STUDENT;
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> create table stud(roll_no int primary key auto_increment, name varchar(20), sub1 int , sub2 int , sub3 int, total int, percentage decimal(5,2));
+Query OK, 0 rows affected (0.39 sec)
+
+mysql> delimiter #
+mysql> create trigger before_insert before insert on stud for each row begin 
+    -> set new.total = new.sub1+new.sub2+new.sub3;
+    -> set new.percentage = (new.total * 100)/300;
+    -> end #
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> delimiter;
+    -> delimiter ;
+    -> #
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimiter;delimiter' at line 1
+mysql> ;
+    -> #
+ERROR 1065 (42000): Query was empty
+mysql> delimiter ;
+mysql> insert into stud(name,sub1,sub2,sub3) values("Atharv",91,92,93);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from stud;
++---------+--------+------+------+------+-------+------------+
+| roll_no | name   | sub1 | sub2 | sub3 | total | percentage |
++---------+--------+------+------+------+-------+------------+
+|       1 | Atharv |   91 |   92 |   93 |   276 |      92.00 |
++---------+--------+------+------+------+-------+------------+
+1 row in set (0.00 sec)
+
+mysql> insert into stud(name,sub1,sub2,sub3) values("Tushar",81,82,83);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into stud(name,sub1,sub2,sub3) values("Pranav",71,72,73);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from stud;
++---------+--------+------+------+------+-------+------------+
+| roll_no | name   | sub1 | sub2 | sub3 | total | percentage |
++---------+--------+------+------+------+-------+------------+
+|       1 | Atharv |   91 |   92 |   93 |   276 |      92.00 |
+|       2 | Tushar |   81 |   82 |   83 |   246 |      82.00 |
+|       3 | Pranav |   71 |   72 |   73 |   216 |      72.00 |
++---------+--------+------+------+------+-------+------------+
+3 rows in set (0.00 sec)
+
+mysql> alter table stud DROP column total;
+Query OK, 0 rows affected (0.33 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table stud DROP column percentage;
+Query OK, 0 rows affected (0.22 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table stud_results(result_id int primary key auto_increment, total_marks int, percentage decimal(5,2), roll_no int, foreign key(roll_no) references stud(roll_no));
+Query OK, 0 rows affected (0.47 sec)
+
+mysql> drop table stud_results;
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> create table stud_results(result_id int primary key auto_increment, total_marks int, percentage decimal(5,2), roll_no int, foreign key(roll_no) references stud(roll_no) ON DELETE CASCADE);
+Query OK, 0 rows affected (0.47 sec)
+
+mysql> select * from stud_results;
+Empty set (0.00 sec)
+
+mysql> create trigger after_insert AFTER INSERT on stud FOR EACH ROW  BEGIN DECLARE total_marks int;
+    -> DECLARE percent decimal(5,2);
+    -> SET total_marks = new.sub1 + new.sub2 + new.sub3;
+    -> SET percent = (total_marks*100)/300;
+    -> INSERT INTO stud_results(roll_no, total_marks, percentage) values(new.roll_no, total_marks, percent);
+    -> END #
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> insert into stud(name, sub1, sub2,sub3) values ("Prashant" ,77,88,99);
+    -> #
+ERROR 1054 (42S22): Unknown column 'total' in 'NEW'
+mysql> delimiter ;
+mysql> insert into stud(name, sub1, sub2,sub3) values ("Prashant" ,77,88,99);
+ERROR 1054 (42S22): Unknown column 'total' in 'NEW'
+mysql> desc stud;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| roll_no | int         | NO   | PRI | NULL    | auto_increment |
+| name    | varchar(20) | YES  |     | NULL    |                |
+| sub1    | int         | YES  |     | NULL    |                |
+| sub2    | int         | YES  |     | NULL    |                |
+| sub3    | int         | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> delete  from stud where roll_no =1;
+Query OK, 1 row affected (0.06 sec)
+
+mysql> delete  from stud where roll_no =2;
+Query OK, 1 row affected (0.06 sec)
+
+mysql> delete  from stud where roll_no =3;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from stud;
+Empty set (0.00 sec)
+
+mysql> insert into stud(name, sub1, sub2,sub3) values ("Prashant" ,77,88,99);
+ERROR 1054 (42S22): Unknown column 'total' in 'NEW'
+mysql> drop trigger before_insert;
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> insert into stud(name, sub1, sub2,sub3) values ("Prashant" ,77,88,99);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from stud;
++---------+----------+------+------+------+
+| roll_no | name     | sub1 | sub2 | sub3 |
++---------+----------+------+------+------+
+|       4 | Prashant |   77 |   88 |   99 |
++---------+----------+------+------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from stud_result;
+ERROR 1146 (42S02): Table 'pratikp.stud_result' doesn't exist
+mysql> select * from stud_results;
++-----------+-------------+------------+---------+
+| result_id | total_marks | percentage | roll_no |
++-----------+-------------+------------+---------+
+|         1 |         264 |      88.00 |       4 |
++-----------+-------------+------------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into stud(name, sub1, sub2,sub3) values ("Kabir" ,76,86,96 );
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into stud(name, sub1, sub2,sub3) values ("Kishor" ,88,86,87 );
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from stud_result;
+ERROR 1146 (42S02): Table 'pratikp.stud_result' doesn't exist
+mysql> select * from stud;
++---------+----------+------+------+------+
+| roll_no | name     | sub1 | sub2 | sub3 |
++---------+----------+------+------+------+
+|       4 | Prashant |   77 |   88 |   99 |
+|       5 | Kabir    |   76 |   86 |   96 |
+|       6 | Kishor   |   88 |   86 |   87 |
++---------+----------+------+------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from stud_results;
++-----------+-------------+------------+---------+
+| result_id | total_marks | percentage | roll_no |
++-----------+-------------+------------+---------+
+|         1 |         264 |      88.00 |       4 |
+|         2 |         258 |      86.00 |       5 |
+|         3 |         261 |      87.00 |       6 |
++-----------+-------------+------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> 
+
