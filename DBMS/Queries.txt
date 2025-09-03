@@ -1,4 +1,11 @@
+mysql> drop database name
+
+mysql> backup database I2IT_student to disk='/home/student/';
+
 mysql> create table departments(dept_id int primary key, dept_name varchar(20) not null);
+create table person2 as select person_id, first_name from persons ;
+drop table name;
+truncate table name;
 
  mysql> insert into departments values (100, 'Sales_dept'),(101,"Software_dept"),(102,"HR_dept");
  
