@@ -1,0 +1,218 @@
+mysql> describe employee;\
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| emp_id      | int  | YES  |     | NULL    |       |
+| emp_name    | text | YES  |     | NULL    |       |
+| emp_address | text | YES  |     | NULL    |       |
++-------------+------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select * from employee
+    -> ;
+Empty set (0.01 sec)
+
+mysql> show table employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee' at line 1
+mysql> create table persons(person_id int, last_name varchar(255), first_name varchar(255), address varchar(255), city varchar(255));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe persons;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| person_id  | int          | YES  |     | NULL    |       |
+| last_name  | varchar(255) | YES  |     | NULL    |       |
+| first_name | varchar(255) | YES  |     | NULL    |       |
+| address    | varchar(255) | YES  |     | NULL    |       |
+| city       | varchar(255) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create table person2 as select person_id, first_name from persons
+    -> ^C
+mysql> create table person2 as select person_id, first_name from persons ;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe person2;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| person_id  | int          | YES  |     | NULL    |       |
+| first_name | varchar(255) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table employee_i2it(id int, name char, address char);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> describe employee_i2it;
++---------+---------+------+-----+---------+-------+
+| Field   | Type    | Null | Key | Default | Extra |
++---------+---------+------+-----+---------+-------+
+| id      | int     | YES  |     | NULL    |       |
+| name    | char(1) | YES  |     | NULL    |       |
+| address | char(1) | YES  |     | NULL    |       |
++---------+---------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> drop table employee_i2it
+    -> ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++------------------------+
+| Tables_in_I2IT_student |
++------------------------+
+| employee               |
+| person2                |
+| persons                |
++------------------------+
+3 rows in set (0.00 sec)
+
+mysql> create table Employee_i2it(id int, emp_name char, emp_address char);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> describe Employee_i2it;
++-------------+---------+------+-----+---------+-------+
+| Field       | Type    | Null | Key | Default | Extra |
++-------------+---------+------+-----+---------+-------+
+| id          | int     | YES  |     | NULL    |       |
+| emp_name    | char(1) | YES  |     | NULL    |       |
+| emp_address | char(1) | YES  |     | NULL    |       |
++-------------+---------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Employee_i2it values(1,P,A)(2,R,H);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(2,R,H)' at line 1
+mysql> insert into Employee_i2it values(1,P,A),(2,R,H);
+ERROR 1054 (42S22): Unknown column 'P' in 'field list'
+mysql> insert into Employee_i2it values(1,'P','A'),(2,'R0,H);
+    '> ^C
+mysql> insert into Employee_i2it values(1,'P','A'),(2,'R','H');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Employee_i2it;
++------+----------+-------------+
+| id   | emp_name | emp_address |
++------+----------+-------------+
+|    1 | P        | A           |
+|    2 | R        | H           |
++------+----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> truncate table Employee_i2it;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM Employee_i2it;
+Empty set (0.00 sec)
+
+mysql> alter table Employee_i2it modify emp_name char(10);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table Employee_i2it modify emp_address\ char(10);
+ERROR: 
+Unknown command '\ '.
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '\ char(10)' at line 1
+mysql> alter table Employee_i2it modify emp_address char(10);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Employee_i2it;
+Empty set (0.00 sec)
+
+mysql> describe Employee_i2it;
++-------------+----------+------+-----+---------+-------+
+| Field       | Type     | Null | Key | Default | Extra |
++-------------+----------+------+-----+---------+-------+
+| id          | int      | YES  |     | NULL    |       |
+| emp_name    | char(10) | YES  |     | NULL    |       |
+| emp_address | char(10) | YES  |     | NULL    |       |
++-------------+----------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Employee_i2it values(1,'Pratik','ABC'),(2,'Sai','xxx');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Employee_i2it;
++------+----------+-------------+
+| id   | emp_name | emp_address |
++------+----------+-------------+
+|    1 | Pratik   | ABC         |
+|    2 | Sai      | xxx         |
++------+----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> alter table Employee_i2it modify lop\kmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm<emp_address char(10);
+ERROR: 
+Unknown command '\k'.
+{ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '\kmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm<emp_address char(10)' at line 1
+mysql> \
+mysql> 
+mysql> 
+mysql> 
+mysql> alter table Employee_i2it add email text;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> des Employee_i2it;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'des Employee_i2it' at line 1
+mysql> describe Employee_i2it;
++-------------+----------+------+-----+---------+-------+
+| Field       | Type     | Null | Key | Default | Extra |
++-------------+----------+------+-----+---------+-------+
+| id          | int      | YES  |     | NULL    |       |
+| emp_name    | char(10) | YES  |     | NULL    |       |
+| emp_address | char(10) | YES  |     | NULL    |       |
+| email       | text     | YES  |     | NULL    |       |
++-------------+----------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table Employee_i2it rename column id to emp_id;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe Employee_i2it;
++-------------+----------+------+-----+---------+-------+
+| Field       | Type     | Null | Key | Default | Extra |
++-------------+----------+------+-----+---------+-------+
+| emp_id      | int      | YES  |     | NULL    |       |
+| emp_name    | char(10) | YES  |     | NULL    |       |
+| emp_address | char(10) | YES  |     | NULL    |       |
+| email       | text     | YES  |     | NULL    |       |
++-------------+----------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT * FROM Employee_i2it;
++--------+----------+-------------+-------+
+| emp_id | emp_name | emp_address | email |
++--------+----------+-------------+-------+
+|      1 | Pratik   | ABC         | NULL  |
+|      2 | Sai      | xxx         | NULL  |
++--------+----------+-------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Employee_i2it email values('pratik@gmail'),('sai@gmail');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'email values('pratik@gmail'),('sai@gmail')' at line 1
+mysql> insert into Employee_i2it (email) values('pratik@gmail'),('sai@gmail');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM Employee_i2it;
++--------+----------+-------------+--------------+
+| emp_id | emp_name | emp_address | email        |
++--------+----------+-------------+--------------+
+|      1 | Pratik   | ABC         | NULL         |
+|      2 | Sai      | xxx         | NULL         |
+|   NULL | NULL     | NULL        | pratik@gmail |
+|   NULL | NULL     | NULL        | sai@gmail    |
++--------+----------+-------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Employee_i2it (email) values('pratik@gmail'),('sai@gmail');
+
