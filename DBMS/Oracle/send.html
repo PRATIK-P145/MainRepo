@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Information Form</title>
+</head>
+<body>
+    <form action="fetch.php" method="post">
+        <label for="userid">User ID:</label><br />
+        <input type="text" id="userid" name="userid" required /><br /><br />
+
+        <label for="username">First Name:</label><br />
+        <input type="text" id="username" name="username" required /><br /><br />
+
+        <label for="lastname">Last Name:</label><br />
+        <input type="text" id="lastname" name="lastname" required /><br /><br />
+
+        <label for="address">Address:</label><br />
+        <textarea id="address" name="address" rows="4" cols="30" required></textarea><br /><br />
+
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
