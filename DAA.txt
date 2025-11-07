@@ -1,0 +1,36 @@
+Consider an instance of a Coin change-making problem, with coins 1, 4 and 6 units. Illustrate its solutions using dynamic programming approach involving a payment of 8 units
+Explain how dynamic programming is used to obtain optimal solution for travelling salesperson problem also explain why this technique is not used to solve TSP for large number of cities
+Write an algorithm for 0/1 knapsack problem using dynamic progranuming.
+Demonstrate the traveling salesman problem in the context of a real-world scenario, such as a delivery route optimization for a logistics company. Explain how solving this problem can lead to cost savings and efficiency improvements
+Apply 8-Queen problem and explain the following terms with respective 8 queen
+
+07 M
+
+BTL3
+
+305.4
+
+problem
+
+1)State Space Tree
+
+2)Live Node
+
+3)Static Tree
+
+4)Solution State
+
+5) Answer State
+Let W = (5, 7, 10, 12, 15, 18, 20) and M-35. Analyze all possible subsets of W that sum to M and draw state space tree for the same
+
+Implement the principle of backtracking. Explain the constraints used in backtracking with an example
+
+Analyze the configuration for 8 queens problem for (7,5,3,1). Find the answer tuple using backtracking method.
+
+Solve the following instance of 0/1 knapsack problem by FIFO branch and bound approach. N=4, (pl, p2, p3, p4) (10, 10, 12,18) (wl, w2, w3, w4) = (2, 4, 6, 9) and M-15.
+
+08 M
+
+BTL3
+
+Q.5 B Apply the control abstraction for least cost search with example.
