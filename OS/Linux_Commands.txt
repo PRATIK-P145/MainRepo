@@ -1,7 +1,0 @@
-ifconfig : ip adress info
-uname : OS
-whoami : display current user
-mkdir
-rmdir : only removes empty dir
-chmod : 
-4+2+1 : ?
